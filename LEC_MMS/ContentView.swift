@@ -1,17 +1,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var viewModel: AppViewModel
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
     
     var body: some View {
-        // 1. Wrap everything in NavigationStack to enable navigation
         NavigationStack {
             VStack {
                 Spacer()
                 
-                // HEADERS
                 VStack(spacing: 10) {
                     Text("Welcome Back")
                         .font(.system(size: 30, weight: .bold))
@@ -25,7 +24,6 @@ struct ContentView: View {
                 }
                 .padding(.bottom, 40)
                 
-                // INPUT FIELDS
                 VStack(alignment: .leading, spacing: 20) {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Email")
@@ -71,7 +69,9 @@ struct ContentView: View {
                 Spacer().frame(height: 40)
                 
                 Button(action: {
-                    print("Login tapped!")
+                    if !email.isEmpty {
+                        viewModel.login(email: email)
+                    }
                 }) {
                     Text("LOGIN")
                         .fontWeight(.bold)
@@ -85,13 +85,11 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                // 2. NAVIGATION LINK (Connects to Sign Up)
                 HStack {
                     Text("You don't have an account yet?")
                         .font(.footnote)
                         .foregroundColor(.gray)
                     
-                    // This creates the link to the other page
                     NavigationLink(destination: SignUpView()) {
                         Text("Sign up")
                             .font(.footnote)
@@ -104,8 +102,4 @@ struct ContentView: View {
             .background(Color.white)
         }
     }
-}
-
-#Preview {
-    ContentView()
 }

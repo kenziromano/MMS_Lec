@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct LEC_MMSApp: App {
+    @StateObject private var appViewModel = AppViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if appViewModel.isLoggedIn {
+                MainTabView()
+                    .environmentObject(appViewModel)
+            } else {
+                ContentView()
+                    .environmentObject(appViewModel)
+            }
         }
     }
 }

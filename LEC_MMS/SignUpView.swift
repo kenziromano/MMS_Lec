@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct SignUpView: View {
-    // This special variable lets us "dismiss" (close) this screen and go back
     @Environment(\.dismiss) var dismiss
     
     @State private var name: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
+    @State private var showSuccessAlert: Bool = false
 
     var body: some View {
         VStack {
@@ -83,28 +83,36 @@ struct SignUpView: View {
             Spacer().frame(height: 40)
             
             Button(action: {
-                print("Create account logic here")
+                if !name.isEmpty && !email.isEmpty && !password.isEmpty {
+                    showSuccessAlert = true
+                }
             }) {
                 Text("SIGN UP")
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(red: 0.1, green: 0.0, blue: 0.3)) // Dark Purple
+                    .background(Color(red: 0.1, green: 0.0, blue: 0.3))
                     .cornerRadius(10)
             }
             .padding(.horizontal)
+            .alert("Pendaftaran Berhasil", isPresented: $showSuccessAlert) {
+                Button("OK") {
+                    dismiss()
+                }
+            } message: {
+                Text("Akun Anda telah berhasil dibuat. Silakan login menggunakan email dan password Anda.")
+            }
             
             Spacer()
             
-            // Footer Link (The "Back" Button)
             HStack {
-                Text("You don't have an account yet?") // Small typo in design, usually "Already have an account?"
+                Text("You don't have an account yet?")
                     .font(.footnote)
                     .foregroundColor(.gray)
                 
                 Button(action: {
-                    dismiss() // This sends you back to the Login screen
+                    dismiss()
                 }) {
                     Text("Sign in")
                         .font(.footnote)
@@ -115,7 +123,7 @@ struct SignUpView: View {
             .padding(.bottom, 20)
         }
         .background(Color.white)
-        .navigationBarBackButtonHidden(true) // This hides the default "< Back" button at top left
+        .navigationBarBackButtonHidden(true)
     }
 }
 
