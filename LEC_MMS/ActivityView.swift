@@ -58,7 +58,7 @@ struct ActivityView: View {
                         EmptyStateView(text: "You haven't posted any jobs yet.")
                     } else {
                         ForEach(myJobs) { job in
-                            ActivityCard(title: job.title, subtitle: "Posted: Today", status: "Open", statusColor: .green)
+                            ActivityCard(title: job.title, subtitle: "Posted: Today", status: "Done/Paid", statusColor: .green)
                         }
                     }
                 }

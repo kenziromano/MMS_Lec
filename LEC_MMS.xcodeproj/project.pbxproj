@@ -13,6 +13,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		84F0F8292ED5D0B200CEF0FB /* LEC_MMS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+				KerjaYuk.jpeg = image.jpeg;
+			};
 			path = LEC_MMS;
 			sourceTree = "<group>";
 		};

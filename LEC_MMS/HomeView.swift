@@ -1,7 +1,22 @@
+//
+//  HomeView.swift
+//  LEC_MMS
+//
+//  Created by Ayonima on 12/14/25.
+//
+
 import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var viewModel: AppViewModel
+    var formattedBalance: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "id_ID")
+        formatter.currencySymbol = "Rp "
+        formatter.maximumFractionDigits = 0
+        return formatter.string(from: NSNumber(value: viewModel.userBalance)) ?? "Rp 0"
+    }
     
     var body: some View {
         NavigationStack {
@@ -21,23 +36,34 @@ struct HomeView: View {
                     .padding(.horizontal)
                     .padding(.top)
                     
-                    ZStack(alignment: .bottomLeading) {
+                    ZStack(alignment: .leading) {
                         LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.8), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
                             .frame(height: 160)
                             .cornerRadius(20)
                         
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Butuh Uang Cepat?")
-                                .font(.headline)
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack {
+                                Image(systemName: "wallet.pass.fill")
+                                    .foregroundColor(.white.opacity(0.8))
+                                Text("Total Penghasilan") 
+                                    .font(.headline)
+                                    .foregroundColor(.white.opacity(0.9))
+                            }
+                            
+                            Text(formattedBalance)
+                                .font(.system(size: 36, weight: .bold, design: .rounded))
                                 .foregroundColor(.white)
-                            Text("Selesaikan tugas hari ini, cair hari ini.")
-                                .font(.subheadline)
-                                .foregroundColor(.white.opacity(0.9))
+                            
+                            Text("Terus cari pekerjaan untuk menambah saldo!")
+                                .font(.caption)
+                                .foregroundColor(.white.opacity(0.7))
+                                .padding(.top, 5)
                         }
-                        .padding()
+                        .padding(25)
                     }
                     .padding(.horizontal)
-                    
+                    .shadow(radius: 5)
+
                     LazyVStack(spacing: 15) {
                         ForEach(viewModel.jobs, id: \.self) { job in
                             NavigationLink(destination: JobDetailView(job: job)) {
@@ -54,6 +80,7 @@ struct HomeView: View {
         }
     }
 }
+
 
 struct JobCard: View {
     let job: Job

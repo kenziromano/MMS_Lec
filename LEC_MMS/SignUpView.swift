@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SignUpView: View {
+    @EnvironmentObject var viewModel: AppViewModel
     @Environment(\.dismiss) var dismiss
     
     @State private var name: String = ""
@@ -84,6 +85,10 @@ struct SignUpView: View {
             
             Button(action: {
                 if !name.isEmpty && !email.isEmpty && !password.isEmpty {
+                    // 2. Panggil fungsi register untuk menyimpan data
+                    viewModel.register(name: name, email: email, password: password)
+                    
+                    // Tampilkan alert sukses
                     showSuccessAlert = true
                 }
             }) {
@@ -98,6 +103,7 @@ struct SignUpView: View {
             .padding(.horizontal)
             .alert("Pendaftaran Berhasil", isPresented: $showSuccessAlert) {
                 Button("OK") {
+                
                     dismiss()
                 }
             } message: {
@@ -129,4 +135,5 @@ struct SignUpView: View {
 
 #Preview {
     SignUpView()
+        .environmentObject(AppViewModel())
 }
